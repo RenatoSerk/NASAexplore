@@ -7,5 +7,26 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-    z-index: 100;
+  }
+
+  .Homepage-header {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5vmin;
+    padding-left: 15vw;
+    background: #111311;
+    font-size: 2.5vmin;
+  }
+
+  .Homepage-header a {
+      padding-right: 10vw;
+      color: white;
+  }
+
+  .header-logo {
+    height: 6vmin;
   }
