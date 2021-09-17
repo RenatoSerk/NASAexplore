@@ -31,9 +31,9 @@ export default function App() {
         </FadeIn>
       }
       { homeVisibility === true &&
-      <FadeIn transitionDuration={2000}>
-        <Home/>
-      </FadeIn>
+        <FadeIn transitionDuration={2000}>
+          <Home/>
+        </FadeIn>
       }
     </div>
   );
