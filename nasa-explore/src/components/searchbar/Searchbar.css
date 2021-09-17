@@ -1,0 +1,27 @@
+.Searchbar {
+    box-sizing: border-box;
+    border: 4px solid #000000;
+    outline: none;
+    width: 28vw;
+    height: 6vh;
+    padding-left: calc(20px + 2vw);
+    font-size: 2vmin;
+}
+
+@media only screen and (max-width: 800px) {
+    .Searchbar {
+      width: 300px;
+      padding-left: 40px;
+      font-size: 14px;
+    }
+    .searchIcon {
+        left: -285px;
+    }
+  }
+
+.searchIcon {
+    position: relative;
+    width: 20px;
+    right: 26.5vw;
+    top: 3px;
+}
