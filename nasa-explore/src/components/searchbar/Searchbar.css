@@ -5,6 +5,7 @@
     width: 28vw;
     height: 6vh;
     padding-left: calc(20px + 2vw);
+    padding-right: 1vw;
     font-size: 2vmin;
 }
 
@@ -12,6 +13,7 @@
     .Searchbar {
       width: 300px;
       padding-left: 40px;
+      padding-right: 20px;
       font-size: 14px;
     }
     .searchIcon {
