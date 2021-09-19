@@ -5,10 +5,7 @@ import "./Searchbar.css"
 export default class Searchbar extends Component<{onSubmit: (q: string) => void}>{
     state = {
         inputData: "",
-        results : [],
         searchbarStyling : {borderRadius: '100px'},
-        loading : false,
-        selectedOption : {id : '', posterURL : ''}
     }
 
     handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void{
