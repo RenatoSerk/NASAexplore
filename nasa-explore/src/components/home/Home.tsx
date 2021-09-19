@@ -12,7 +12,7 @@ export default class Home extends Component{
 
     render(){
         if (this.state.searchQuery !== ""){
-            let urlQuery = '/gallery?q=' + this.state.searchQuery;
+            let urlQuery = '/gallery?' + this.state.searchQuery;
             return (
                 <Redirect to={urlQuery} />
             )
