@@ -1,0 +1,7 @@
+.PageNavigation {
+    background: #111311;
+    width: calc(100% - 4vmin);
+    display: flex;
+    justify-content: space-between;
+    padding: 2vmin;
+}
