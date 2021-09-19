@@ -1,7 +1,7 @@
 import {Component} from "react";
-import {Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router';
 import './Home.css';
-import Searchbar from "../searchbar/Searchbar";
+import Searchbar from "./searchbar/Searchbar";
 import Header from "../header/Header";
 import FadeIn from "react-fade-in";
 
