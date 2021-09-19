@@ -1,3 +1,8 @@
+.Splash-container {
+    position: relative;
+    overflow: hidden;
+}
+
 .Splash {
     background-image: url("./stars.svg");
     background-color:rgb(209, 218, 84);
@@ -8,7 +13,6 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-    z-index: -1;
   }
 
   .App-logo {
