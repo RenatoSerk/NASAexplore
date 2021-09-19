@@ -7,7 +7,8 @@ export default class Header extends Component{
     render(){
         return(
             <header className="Header">
-                <img src={headerLogo} className="Header-logo" alt="logo" />
+                <img src={headerLogo} className="Header-logo" alt="logo" 
+                onClick={() => {window.location.pathname='/home'}}/>
                 <a href="https://github.com/RenatoSerk">Designed by Renato. S</a>
             </header>
         );
