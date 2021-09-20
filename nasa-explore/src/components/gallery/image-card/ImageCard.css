@@ -5,7 +5,7 @@
     line-height: 150px;
     width: 200px;
     height: 150px;
-    padding: 20px;
+    box-shadow: 0 0 45px 8px rgba(173, 173, 172, 0.35);
 }
 
 .Image{
