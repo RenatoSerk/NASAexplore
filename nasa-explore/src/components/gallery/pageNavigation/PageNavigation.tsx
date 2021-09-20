@@ -69,14 +69,14 @@ export default class PageNavigation extends Component<{currentPage: number, tota
             navElement = (
                 <footer className="PageNavigation">
                     <a className='leftArrow' href={this.prevLink}>{'<'} Previous Page</a>
-                    <a className='rightArrow'/>
+                    <p style={{visibility: "hidden"}}></p>
                 </footer>
             );
         }
         else{
             navElement = (
                 <footer className="PageNavigation">
-                    <a className='leftArrow' />
+                    <p style={{visibility: "hidden"}}></p>
                     <a className='rightArrow' href={this.nextLink}>Next Page {'>'}</a>
                 </footer>
             );
