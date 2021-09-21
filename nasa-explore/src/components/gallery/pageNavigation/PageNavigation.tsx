@@ -44,7 +44,7 @@ export default class PageNavigation extends Component<{currentPage: number, tota
 
     componentDidMount(){
         let buttonState = {nextEnabled: false, prevEnabled: false}
-        if (this.props.currentPage !== this.props.totalPages){
+        if (this.props.currentPage !== this.props.totalPages && this.props.totalPages !== 0){
             buttonState.nextEnabled = true;
             this.setNextLink();
         }
@@ -68,8 +68,16 @@ export default class PageNavigation extends Component<{currentPage: number, tota
         else if (this.state.prevEnabled && !this.state.nextEnabled){
             navElement = (
                 <footer className="PageNavigation">
-                    <a className='leftArrow' href={this.prevLink}>{'<'} Previous Page</a>
+                    <a href={this.prevLink}>{'<'} Previous Page</a>
                     <p style={{visibility: "hidden"}}></p>
+                </footer>
+            );
+        }
+        else if (!this.state.prevEnabled && this.state.nextEnabled){
+            navElement = (
+                <footer className="PageNavigation">
+                    <p style={{visibility: "hidden"}}></p>
+                    <a href={this.nextLink}>Next Page {'>'}</a>
                 </footer>
             );
         }
@@ -77,7 +85,7 @@ export default class PageNavigation extends Component<{currentPage: number, tota
             navElement = (
                 <footer className="PageNavigation">
                     <p style={{visibility: "hidden"}}></p>
-                    <a className='rightArrow' href={this.nextLink}>Next Page {'>'}</a>
+                    <p style={{visibility: "hidden"}}></p>
                 </footer>
             );
         }
