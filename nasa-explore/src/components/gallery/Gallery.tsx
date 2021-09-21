@@ -1,5 +1,4 @@
 import { Component } from "react";
-import Cookies from 'universal-cookie';
 import './Gallery.css';
 import logo from './logo.svg'
 import Header from "../header/Header";
@@ -22,22 +21,32 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
     }
 
     updateGallery(){
-        this.setState({apiReturn: 
-            {results: this.likedToResults(), loading: false, totalPages: this.state.apiReturn.totalPages}});
+        if (this.props.useLiked){
+            this.setState({apiReturn: 
+                {results: this.likedToResults(), loading: false, totalPages: this.state.apiReturn.totalPages}});
+        }
     }
 
     likedToResults(): ApiResults{
-        let cookies = new Cookies();
-        let likedImageData = [];
-        if (cookies.get('liked') !== undefined){
-            likedImageData = cookies.get('liked');
+        let likedImages = localStorage.getItem('liked');
+        if (likedImages !== null){
+            let temp = JSON.parse(likedImages);
+            return {
+                collection: {
+                    items: temp,
+                    metadata: {
+                        total_hits: temp.length
+                    }
+                }
+            }
         }
-
-        return {
-            collection: {
-                items: likedImageData,
-                metadata: {
-                    total_hits: likedImageData.length
+        else{
+            return {
+                collection: {
+                    items: [],
+                    metadata: {
+                        total_hits: 0
+                    }
                 }
             }
         }
@@ -80,7 +89,7 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         else{
             if (this.props.useLiked === true){
                 let results = this.likedToResults();
-                this.setState({ apiReturn: {results: this.likedToResults(), loading: false, totalPages: results.collection.metadata.total_hits} });
+                this.setState({ apiReturn: {results: results, loading: false, totalPages: this.getTotalPages(results.collection.metadata.total_hits)} });
             }
             else{
                 this.getApiResults(query.substring(1));

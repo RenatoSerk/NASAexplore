@@ -1,54 +1,53 @@
 import { Component } from "react";
 import { ImageItem } from "../../../../models/ApiResults";
-import Cookies from 'universal-cookie';
 import './CardModal.css'
 
 export default class CardModal extends Component<{image: ImageItem, show: boolean, onclose: () => void, updateGallery: () => void}>{
 
     imageIsLiked(image: ImageItem) {
-        let cookies = new Cookies();
-        let tempCookie = [];
-        if (cookies.get('liked') !== undefined){
-            tempCookie = cookies.get('liked');
+        let likedImages = localStorage.getItem('liked');
+        if (likedImages !== null){
+            let likedImagesArray = JSON.parse(likedImages);
+            console.log(likedImages);
+            console.log(likedImagesArray);
+            let imageLiked = false;
+            likedImagesArray.forEach( (i: ImageItem) => {
+                if (i.links[0].href === image.links[0].href){ imageLiked =  true; }
+            });
+            return imageLiked;
         }
         else{
             return false;
         }
-
-        let imageLiked = false;
-        tempCookie.forEach( (i: ImageItem) => {
-            if (i.links[0].href === image.links[0].href){ imageLiked =  true; }
-        });
-        return imageLiked;
     }
 
     handleOnPressLike(){
-        let cookies = new Cookies();
-        // Save a cookie with the liked image
-        let tempCookie: ImageItem[] = [];
-        if (cookies.get('liked') !== undefined){
-            tempCookie = cookies.get('liked');
+        let likedImages = localStorage.getItem('liked');
+        if (likedImages !== null){
+            let temp = JSON.parse(likedImages);
+            temp.push(this.props.image);
+            localStorage.setItem('liked', JSON.stringify(temp));
         }
-        tempCookie.push(this.props.image);
-        cookies.set('liked', tempCookie, { path: '/' });
-        console.log(cookies.get('liked'));
+        else{
+            console.log('Stringifying this first' + JSON.stringify([this.props.image]));
+            localStorage.setItem('liked', JSON.stringify([this.props.image]));
+        }
         // Force rerender
         this.setState({});
     }
 
     handleOnPressUnlike(){
-        let cookies = new Cookies();
-        if (this.imageIsLiked(this.props.image)){
-            let tempCookie: ImageItem[] = cookies.get('liked');
-            tempCookie = tempCookie.filter( (i: ImageItem) => {
+        let likedImages = localStorage.getItem('liked');
+        if (likedImages !== null){
+            let temp = JSON.parse(likedImages).filter( (i: ImageItem) => {
                 return (i.links[0].href !== this.props.image.links[0].href);
             });
-            cookies.set('liked', tempCookie, { path: '/' });
+            localStorage.setItem('liked', JSON.stringify(temp));
             this.props.updateGallery();
             this.setState({});
         }
         else{
-            // Image wasn't liked, possible deleted cookie by user?
+            // Image wasn't liked, possibly deleted by user somehow?
             // Force rerender
             this.props.updateGallery();
             this.setState({});

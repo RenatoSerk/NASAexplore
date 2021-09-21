@@ -1,6 +1,6 @@
 export interface ApiResults{
     collection: {
-        items: [ImageItem],
+        items: ImageItem[],
         metadata: {
             total_hits: number
         }
