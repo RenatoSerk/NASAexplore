@@ -19,17 +19,12 @@ export default class Home extends Component{
         }
 
         return(
-            <main className="Home-container">
-                <FadeIn transitionDuration={2000}>
-                    <div className="Homepage">
-                        <Header/>
-                        <Searchbar onSubmit={(q: string) => {this.setState({searchQuery: q})}}/>
-                        { this.state.searchQuery !== "" &&
-                        <p>{this.state.searchQuery}</p>
-                        }
-                    </div>
-                </FadeIn>
-            </main>
+            <FadeIn transitionDuration={2000}>
+                <div className="Homepage" id='home_screen'>
+                    <Header/>
+                    <Searchbar onSubmit={(q: string) => {this.setState({searchQuery: q})}}/>
+                </div>
+            </FadeIn>
         );
     }
 }
