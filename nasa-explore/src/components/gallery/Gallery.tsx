@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Cookies from 'universal-cookie';
 import './Gallery.css';
 import logo from './logo.svg'
 import Header from "../header/Header";
@@ -11,11 +12,28 @@ interface State {
     apiReturn: {results: ApiResults|undefined, loading: boolean}
 }
 
-export default class Gallery extends Component<State>{
+export default class Gallery extends Component<{useLiked?: boolean}, State>{
     state: Readonly<State> = {
         apiReturn: {results: undefined, loading: true}
     }
     totalPages: number = 0;
+
+    likedToResults(): ApiResults{
+        let cookies = new Cookies();
+        let likedImageData = [];
+        if (cookies.get('liked') !== undefined){
+            likedImageData = cookies.get('liked');
+        }
+
+        return {
+            collection: {
+                items: likedImageData,
+                metadata: {
+                    total_hits: likedImageData.length
+                }
+            }
+        }
+    }
 
     getApiResults(searchTerm: string){
         fetch('https://images-api.nasa.gov/search?q=' + searchTerm + '&media_type=image')
@@ -44,12 +62,19 @@ export default class Gallery extends Component<State>{
     }
 
     componentDidMount(){
+        // If the query is empty and this isn't the liked gallery,
+        // reroute to the error page
         let query = decodeURI(window.location.search);
-        if (query === "" || query === undefined || query === null){
+        if ((query === "" || query === undefined || query === null) && window.location.pathname !== '/liked'){
             window.location.pathname = '/400';
         }
         else{
-            this.getApiResults(query.substring(1));
+            if (this.props.useLiked === true){
+                this.setState({ apiReturn: {results: this.likedToResults(), loading: false} });
+            }
+            else{
+                this.getApiResults(query.substring(1));
+            }
         }
     }
 
@@ -81,12 +106,12 @@ export default class Gallery extends Component<State>{
                         <div className="Card-container">
                             {imageCards}
                         </div>
-                        <PageNavigation currentPage={this.getCurrentPage()} totalPages={this.totalPages}/>
                     </FadeIn>
                 }
                 { (this.state.apiReturn.loading === false && this.totalPages === 0) &&
                     <p>No results :(</p>
                 }
+                <PageNavigation currentPage={this.getCurrentPage()} totalPages={this.totalPages}/>
             </main>
         );
     }
