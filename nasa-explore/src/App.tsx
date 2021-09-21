@@ -12,6 +12,7 @@ export default function App() {
         <Route path="/" component={Splash} exact />
         <Route path="/home" component={Home} />
         <Route path="/gallery" component={Gallery} />
+        <Route path="/liked" component={() => <Gallery useLiked={true}/>}/>
         <Route component={Error} />
     </Switch>
 </main>
