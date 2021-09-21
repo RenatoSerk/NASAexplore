@@ -8,7 +8,8 @@ export default class Header extends Component{
         return(
             <header className="Header">
                 <img src={headerLogo} className="Header-logo" alt="logo" 
-                onClick={() => {window.location.href = "home"}}/>
+                onClick={() => {window.location.href = "/home"}}/>
+                <a href={'/liked'}>Liked Photos</a>
                 <a href="https://github.com/RenatoSerk">Designed by Renato. S</a>
             </header>
         );
