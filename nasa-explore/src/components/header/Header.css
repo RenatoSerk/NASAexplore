@@ -1,5 +1,5 @@
 .Header {
-    width: 100vw;
+    width: 100%;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -13,8 +13,8 @@
   }
 
   .Header a {
-      padding-right: 10vw;
       color: white;
+      padding-right: 20px;
   }
 
   .Header-logo {
