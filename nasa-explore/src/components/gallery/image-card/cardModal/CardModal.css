@@ -5,7 +5,6 @@
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(10px);
-    overflow: hidden;
 }
 
 .content {
@@ -17,7 +16,6 @@
     width: 70vw;
     height: 80vh;
     background: white;
-    overflow: hidden;
 }
 
 .card-image {
