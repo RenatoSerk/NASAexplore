@@ -2,13 +2,14 @@
     background-color: rgb(134, 134, 134);
     margin-top: 5vh;
     margin-bottom: 7vh;
-    line-height: 150px;
     width: 200px;
     height: 150px;
-    box-shadow: 0 0 45px 8px rgba(173, 173, 172, 0.35);
+    box-shadow: 2px 4px 4px 4px rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
 }
 
-.Image{
+.Thumbnail{
     width: 100%;
     height: 100%;
+    border-radius: 5px;
 }

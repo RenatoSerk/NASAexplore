@@ -40,7 +40,7 @@ export default class ImageCard extends Component<{image: ImageItem}>{
             <div className="Card">
                 <img src={this.props.image.links[0].href} 
                     alt={this.props.image.data[0].title} 
-                    className="Image"
+                    className="Thumbnail"
                     onClick={this.handleOnClick.bind(this)}/>
                     <CardModal image={this.props.image} 
                         show={this.state.showModal}
