@@ -3,7 +3,7 @@ import { ImageItem } from "../../../models/ApiResults";
 import CardModal from "./cardModal/CardModal";
 import './ImageCard.css'
 
-export default class ImageCard extends Component<{image: ImageItem}>{
+export default class ImageCard extends Component<{image: ImageItem, updateGallery: () => void}>{
     state = {
         showModal: false
     }
@@ -44,7 +44,8 @@ export default class ImageCard extends Component<{image: ImageItem}>{
                     onClick={this.handleOnClick.bind(this)}/>
                     <CardModal image={this.props.image} 
                         show={this.state.showModal}
-                        onclose={this.toggleModal.bind(this)}/>
+                        onclose={this.toggleModal.bind(this)}
+                        updateGallery={this.props.updateGallery}/>
             </div>
         );
     }

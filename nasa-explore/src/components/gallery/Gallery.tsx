@@ -9,14 +9,22 @@ import FadeIn from "react-fade-in";
 import PageNavigation from "./pageNavigation/PageNavigation";
 
 interface State {
-    apiReturn: {results: ApiResults|undefined, loading: boolean}
+    apiReturn: {results: ApiResults|undefined, loading: boolean, totalPages: number}
 }
 
 export default class Gallery extends Component<{useLiked?: boolean}, State>{
     state: Readonly<State> = {
-        apiReturn: {results: undefined, loading: true}
+        apiReturn: {results: undefined, loading: true, totalPages: 0}
     }
-    totalPages: number = 0;
+
+    getTotalPages(hits: number): number{
+        return Math.ceil(hits / 100);
+    }
+
+    updateGallery(){
+        this.setState({apiReturn: 
+            {results: this.likedToResults(), loading: false, totalPages: this.state.apiReturn.totalPages}});
+    }
 
     likedToResults(): ApiResults{
         let cookies = new Cookies();
@@ -38,7 +46,8 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
     getApiResults(searchTerm: string){
         fetch('https://images-api.nasa.gov/search?q=' + searchTerm + '&media_type=image')
             .then(res => res.json()).then(jsonRes => {
-                this.setState({ apiReturn: {results: jsonRes, loading: false} });
+                this.setState({ apiReturn: 
+                    {results: jsonRes, loading: false, totalPages: this.getTotalPages(jsonRes.collection?.metadata.total_hits)}});
             });
     }
 
@@ -70,7 +79,8 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         }
         else{
             if (this.props.useLiked === true){
-                this.setState({ apiReturn: {results: this.likedToResults(), loading: false} });
+                let results = this.likedToResults();
+                this.setState({ apiReturn: {results: this.likedToResults(), loading: false, totalPages: results.collection.metadata.total_hits} });
             }
             else{
                 this.getApiResults(query.substring(1));
@@ -81,16 +91,16 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
     render(){
         let imageCards: JSX.Element[] = [];
         let items: ImageItem[] = [];
+        let totalPages = this.state.apiReturn.totalPages
 
         if(this.state.apiReturn.results !== undefined && this.state.apiReturn.results.collection !== undefined){
             items = this.state.apiReturn.results.collection.items;
             if (items.length !== 0){
                 let count = 0;
                 items.forEach( (item: ImageItem) => {
-                    imageCards.push(<ImageCard image={item} key={count}/>);
+                    imageCards.push(<ImageCard image={item} key={count} updateGallery={this.updateGallery.bind(this)}/>);
                     count++;
                 });
-                this.totalPages = Math.ceil(this.state.apiReturn.results.collection.metadata.total_hits / 100);
             }
         }
         return(
@@ -101,17 +111,19 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
                         <img src={logo} className="App-logo" alt="loading" />
                      </FadeIn>
                 }
-                { (this.state.apiReturn.loading === false && this.totalPages !== 0) &&
+                { (this.state.apiReturn.loading === false && totalPages !== 0) &&
                     <FadeIn>
                         <div className="Card-container">
                             {imageCards}
                         </div>
                     </FadeIn>
                 }
-                { (this.state.apiReturn.loading === false && this.totalPages === 0) &&
+                { (this.state.apiReturn.loading === false && totalPages === 0) &&
                     <p>No results :(</p>
                 }
-                <PageNavigation currentPage={this.getCurrentPage()} totalPages={this.totalPages}/>
+                { (this.state.apiReturn.loading === false) &&
+                    <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
+                }
             </main>
         );
     }

@@ -1,13 +1,13 @@
 .Header {
-    width: calc(100% - 8vw);
+    width: 100vw;
     position: absolute;
     top: 0px;
+    left: 0px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding-top: 2.5vmin;
     padding-bottom: 2.5vmin;
-    padding-left: 8vw;
     background: #111311;
     font-size: 2.5vmin;
   }

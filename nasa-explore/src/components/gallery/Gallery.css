@@ -1,4 +1,5 @@
 .Gallery-container{
+    width: calc(100vw - 10px - 2vmin);
     position: relative;
     display: flex;
     font-size: calc(10px + 2vmin);
@@ -6,6 +7,14 @@
     justify-content: center;
     min-height: 100vh;
     align-items: center;
+}
+
+.Gallery-container header {
+  width: calc(100vw - 2.8vmin);
+}
+
+.Gallery-container pageNavigation {
+    width: calc(100vw - 2.8vmin);
 }
 
 .Card-container{

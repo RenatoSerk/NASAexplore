@@ -3,13 +3,13 @@ import { ImageItem } from "../../../../models/ApiResults";
 import Cookies from 'universal-cookie';
 import './CardModal.css'
 
-export default class CardModal extends Component<{image: ImageItem, show: boolean, onclose: () => void}>{
-    cookies = new Cookies();
+export default class CardModal extends Component<{image: ImageItem, show: boolean, onclose: () => void, updateGallery: () => void}>{
 
     imageIsLiked(image: ImageItem) {
+        let cookies = new Cookies();
         let tempCookie = [];
-        if (this.cookies.get('liked') !== undefined){
-            tempCookie = this.cookies.get('liked');
+        if (cookies.get('liked') !== undefined){
+            tempCookie = cookies.get('liked');
         }
         else{
             return false;
@@ -23,29 +23,34 @@ export default class CardModal extends Component<{image: ImageItem, show: boolea
     }
 
     handleOnPressLike(){
+        let cookies = new Cookies();
         // Save a cookie with the liked image
         let tempCookie: ImageItem[] = [];
-        if (this.cookies.get('liked') !== undefined){
-            tempCookie = this.cookies.get('liked');
+        if (cookies.get('liked') !== undefined){
+            tempCookie = cookies.get('liked');
         }
         tempCookie.push(this.props.image);
-        this.cookies.set('liked', tempCookie, { path: '/' });
+        cookies.set('liked', tempCookie, { path: '/' });
+        console.log(cookies.get('liked'));
         // Force rerender
         this.setState({});
     }
 
     handleOnPressUnlike(){
+        let cookies = new Cookies();
         if (this.imageIsLiked(this.props.image)){
-            let tempCookie: ImageItem[] = this.cookies.get('liked');
+            let tempCookie: ImageItem[] = cookies.get('liked');
             tempCookie = tempCookie.filter( (i: ImageItem) => {
                 return (i.links[0].href !== this.props.image.links[0].href);
             });
-            this.cookies.set('liked', tempCookie, { path: '/' });
+            cookies.set('liked', tempCookie, { path: '/' });
+            this.props.updateGallery();
             this.setState({});
         }
         else{
             // Image wasn't liked, possible deleted cookie by user?
             // Force rerender
+            this.props.updateGallery();
             this.setState({});
         }
     }
@@ -71,7 +76,6 @@ export default class CardModal extends Component<{image: ImageItem, show: boolea
                 <p className='small'>{description}</p>
         }
 
-        console.log(this.cookies.get('liked'));
         return(
                 <div>
                     <div className="modal-backdrop" id="modal" onClick={this.props.onclose}></div>
