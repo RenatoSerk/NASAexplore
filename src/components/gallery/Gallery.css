@@ -10,6 +10,7 @@
 }
 
 .Card-container{
+    width: 100vw;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
