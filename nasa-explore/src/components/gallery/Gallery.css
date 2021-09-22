@@ -1,6 +1,5 @@
 .Gallery-container{
     width: 100%;
-    position: relative;
     display: flex;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -10,6 +9,7 @@
 }
 
 .Card-container{
+    width: 100vw;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
