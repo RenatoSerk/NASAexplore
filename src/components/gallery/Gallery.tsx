@@ -73,7 +73,15 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         else{
             if (searchSplit[1].substring(0, 5) === 'page='){
                 let numString = searchSplit[1].substring(5);
-                return numString.match(/\d+/) ? parseInt(numString) : 0
+
+                if (numString.match(/\d+/)){
+                    return parseInt(numString);
+                }
+                else{
+                    // Page number is blank, navigate to bad request page
+                    window.location.pathname = '/400';
+                }
+                return 0;
             }
             else{
                 return 1;
