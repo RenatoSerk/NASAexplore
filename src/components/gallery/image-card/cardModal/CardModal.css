@@ -5,6 +5,7 @@
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(10px);
+    z-index: 1;
 }
 
 .content {
@@ -16,6 +17,7 @@
     width: 70vw;
     height: 80vh;
     background: white;
+    z-index: 1;
 }
 
 .card-image {
