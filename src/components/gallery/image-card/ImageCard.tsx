@@ -19,6 +19,7 @@ export default class ImageCard extends Component<{image: ImageItem, updateGaller
             if (rootElement !== null){
                 rootElement.style.top = `-${window.scrollY}px`;
                 rootElement.style.position = 'fixed';
+                rootElement.style.width = '100%';
             }
         }
         // Enable scroll if not showing modal, and scroll back to
