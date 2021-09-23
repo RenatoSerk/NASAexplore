@@ -98,7 +98,6 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
             }
         }
     }
-
     render(){
         let imageCards: JSX.Element[] = [];
         let items: ImageItem[] = [];
@@ -116,25 +115,28 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         }
         return(
             <div>
-            <Header/>
-            <main className="Gallery-container">
-                { this.state.apiReturn.loading === true &&
-                    <FadeIn>
-                        <img src={logo} className="App-logo" alt="loading" />
-                     </FadeIn>
+                <Header/>
+                <main className="Gallery-container">
+                    { this.state.apiReturn.loading &&
+                        <FadeIn>
+                            <img src={logo} className="App-logo" alt="loading" />
+                        </FadeIn>
+                    }
+                    { (!this.state.apiReturn.loading && totalPages !== 0) &&
+                        <FadeIn className={'Card-container'} delay={20}>
+                            {imageCards}
+                        </FadeIn>
+                    }
+                    { (!this.state.apiReturn.loading && totalPages === 0) &&
+                        <p>No results :(</p>
+                    }
+                </main>
+                { this.state.apiReturn.loading &&
+                        <PageNavigation currentPage={1} totalPages={1}/>
                 }
-                { (this.state.apiReturn.loading === false && totalPages !== 0) &&
-                    <FadeIn className={'Card-container'} delay={20}>
-                        {imageCards}
-                    </FadeIn>
+                { !this.state.apiReturn.loading &&
+                        <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
                 }
-                { (this.state.apiReturn.loading === false && totalPages === 0) &&
-                    <p>No results :(</p>
-                }
-            </main>
-            { this.state.apiReturn.loading === false &&
-                <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
-            }
             </div>
         );
     }
