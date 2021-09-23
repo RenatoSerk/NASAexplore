@@ -9,11 +9,13 @@ import PageNavigation from "./pageNavigation/PageNavigation";
 
 interface State {
     apiReturn: {results: ApiResults|undefined, loading: boolean, totalPages: number}
+    fadeDone: boolean
 }
 
 export default class Gallery extends Component<{useLiked?: boolean}, State>{
     state: Readonly<State> = {
-        apiReturn: {results: undefined, loading: true, totalPages: 0}
+        apiReturn: {results: undefined, loading: true, totalPages: 0},
+        fadeDone: false
     }
 
     getTotalPages(hits: number): number{
@@ -113,27 +115,27 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
             }
         }
         return(
+            <div>
+            <Header/>
             <main className="Gallery-container">
-                <Header/>
                 { this.state.apiReturn.loading === true &&
                     <FadeIn>
                         <img src={logo} className="App-logo" alt="loading" />
                      </FadeIn>
                 }
                 { (this.state.apiReturn.loading === false && totalPages !== 0) &&
-                    <FadeIn>
-                        <div className="Card-container">
-                            {imageCards}
-                        </div>
+                    <FadeIn className={'Card-container'} delay={20}>
+                        {imageCards}
                     </FadeIn>
                 }
                 { (this.state.apiReturn.loading === false && totalPages === 0) &&
                     <p>No results :(</p>
                 }
-                { (this.state.apiReturn.loading === false) &&
-                    <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
-                }
             </main>
+            { this.state.apiReturn.loading === false &&
+                <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
+            }
+            </div>
         );
     }
 }
