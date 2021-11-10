@@ -39,7 +39,7 @@ export default class ImageCard extends Component<{image: ImageItem, updateGaller
     render(){
         return(
             <div className="Card">
-                <img src={this.props.image.links[0].href} 
+                <input type="image" src={this.props.image.links[0].href}
                     alt={this.props.image.data[0].title} 
                     className="Thumbnail"
                     onClick={this.handleOnClick.bind(this)}/>

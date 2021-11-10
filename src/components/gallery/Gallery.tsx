@@ -18,6 +18,24 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         fadeDone: false
     }
 
+    componentDidMount(){
+        // If the query is empty and this isn't the liked gallery,
+        // reroute to the error page
+        let query = decodeURI(window.location.search);
+        if ((query === "" || query === undefined || query === null) && window.location.pathname !== '/liked'){
+            window.location.pathname = '/400';
+        }
+        else{
+            if (this.props.useLiked === true){
+                let results = this.likedToResults();
+                this.setState({ apiReturn: {results: results, loading: false, totalPages: this.getTotalPages(results.collection.metadata.total_hits)} });
+            }
+            else{
+                this.getApiResults(query.substring(1));
+            }
+        }
+    }
+
     getTotalPages(hits: number): number{
         return Math.ceil(hits / 100);
     }
@@ -89,23 +107,6 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         }
     }
 
-    componentDidMount(){
-        // If the query is empty and this isn't the liked gallery,
-        // reroute to the error page
-        let query = decodeURI(window.location.search);
-        if ((query === "" || query === undefined || query === null) && window.location.pathname !== '/liked'){
-            window.location.pathname = '/400';
-        }
-        else{
-            if (this.props.useLiked === true){
-                let results = this.likedToResults();
-                this.setState({ apiReturn: {results: results, loading: false, totalPages: this.getTotalPages(results.collection.metadata.total_hits)} });
-            }
-            else{
-                this.getApiResults(query.substring(1));
-            }
-        }
-    }
     render(){
         let imageCards: JSX.Element[] = [];
         let items: ImageItem[] = [];

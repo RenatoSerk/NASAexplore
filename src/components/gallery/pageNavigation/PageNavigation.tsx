@@ -10,6 +10,19 @@ export default class PageNavigation extends Component<{currentPage: number, tota
     prevLink: string = window.location.href;
     urlParams = window.location.search;
 
+    componentDidMount(){
+        let buttonState = {nextEnabled: false, prevEnabled: false}
+        if (this.props.currentPage !== this.props.totalPages && this.props.totalPages !== 0){
+            buttonState.nextEnabled = true;
+            this.setNextLink();
+        }
+        if (this.props.currentPage !== 1){
+            buttonState.prevEnabled = true;
+            this.setPrevLink();
+        }
+        this.setState(buttonState);
+    }
+
     setNextLink(){
         if (this.urlParams.match(/page=\d+/)){
             this.nextLink = window.location.href.replace(
@@ -42,21 +55,8 @@ export default class PageNavigation extends Component<{currentPage: number, tota
         }
     }
 
-    componentDidMount(){
-        let buttonState = {nextEnabled: false, prevEnabled: false}
-        if (this.props.currentPage !== this.props.totalPages && this.props.totalPages !== 0){
-            buttonState.nextEnabled = true;
-            this.setNextLink();
-        }
-        if (this.props.currentPage !== 1){
-            buttonState.prevEnabled = true;
-            this.setPrevLink();
-        }
-        this.setState(buttonState);
-    }
-
     render(){
-        let navElement: JSX.Element = <footer className="PageNavigation"></footer>
+        let navElement: JSX.Element;
         if (this.state.prevEnabled && this.state.nextEnabled){
             navElement = (
                 <footer className="PageNavigation">
@@ -69,14 +69,14 @@ export default class PageNavigation extends Component<{currentPage: number, tota
             navElement = (
                 <footer className="PageNavigation">
                     <a href={this.prevLink}>{'<'} Previous Page</a>
-                    <p style={{visibility: "hidden"}}></p>
+                    <p style={{visibility: "hidden"}}/>
                 </footer>
             );
         }
         else if (!this.state.prevEnabled && this.state.nextEnabled){
             navElement = (
                 <footer className="PageNavigation">
-                    <p style={{visibility: "hidden"}}></p>
+                    <p style={{visibility: "hidden"}}/>
                     <a href={this.nextLink}>Next Page {'>'}</a>
                 </footer>
             );
@@ -84,8 +84,8 @@ export default class PageNavigation extends Component<{currentPage: number, tota
         else{
             navElement = (
                 <footer className="PageNavigation">
-                    <p style={{visibility: "hidden"}}></p>
-                    <p style={{visibility: "hidden"}}></p>
+                    <p style={{visibility: "hidden"}}/>
+                    <p style={{visibility: "hidden"}}/>
                 </footer>
             );
         }
