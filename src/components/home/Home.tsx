@@ -4,6 +4,7 @@ import './Home.css';
 import Searchbar from "./searchbar/Searchbar";
 import Header from "../header/Header";
 import FadeIn from "react-fade-in";
+import PageNavigation from "../gallery/pageNavigation/PageNavigation";
 
 export default class Home extends Component{
     state = {
@@ -19,11 +20,14 @@ export default class Home extends Component{
         }
 
         return(
-            <FadeIn transitionDuration={2000}>
-                <div className="Homepage" id='home_screen'>
+            <FadeIn transitionDuration={2000} className='fadeDiv'>
+                <main className="mainContent">
                     <Header/>
-                    <Searchbar onSubmit={(q: string) => {this.setState({searchQuery: q})}}/>
-                </div>
+                    <div className="Homepage" id='home_screen'>
+                        <Searchbar onSubmit={(q: string) => {this.setState({searchQuery: q})}}/>
+                    </div>
+                    <PageNavigation currentPage={1} totalPages={1}/>
+                </main>
             </FadeIn>
         );
     }

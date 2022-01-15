@@ -27,7 +27,7 @@ export default class Searchbar extends Component<{onSubmit: (q: string) => void}
     render(){
         return(
             <div className="inputContainer">
-                <input className="Searchbar" id="searchbar"
+                <input className="Searchbar" id="searchbar" title="Search Bar"
                     placeholder="Search the stars for images!"
                     style={this.state.searchbarStyling}
                     value={this.state.inputData}
@@ -35,7 +35,7 @@ export default class Searchbar extends Component<{onSubmit: (q: string) => void}
                     onBlur={() => this.changeSearchbarStyling('100px')}
                     onKeyDown={this.handleKeyDown.bind(this)}
                     onChange={this.handleOnInputChange.bind(this)}/>
-                <img src={searchIcon} className="searchIcon" alt=""></img>
+                <img src={searchIcon} className="searchIcon" alt=""/>
             </div>
         );
     }

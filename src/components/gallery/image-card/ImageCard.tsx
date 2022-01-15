@@ -19,6 +19,7 @@ export default class ImageCard extends Component<{image: ImageItem, updateGaller
             if (rootElement !== null){
                 rootElement.style.top = `-${window.scrollY}px`;
                 rootElement.style.position = 'fixed';
+                rootElement.style.width = '100%';
             }
         }
         // Enable scroll if not showing modal, and scroll back to
@@ -38,7 +39,7 @@ export default class ImageCard extends Component<{image: ImageItem, updateGaller
     render(){
         return(
             <div className="Card">
-                <img src={this.props.image.links[0].href} 
+                <input type="image" src={this.props.image.links[0].href}
                     alt={this.props.image.data[0].title} 
                     className="Thumbnail"
                     onClick={this.handleOnClick.bind(this)}/>

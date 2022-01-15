@@ -9,11 +9,31 @@ import PageNavigation from "./pageNavigation/PageNavigation";
 
 interface State {
     apiReturn: {results: ApiResults|undefined, loading: boolean, totalPages: number}
+    fadeDone: boolean
 }
 
 export default class Gallery extends Component<{useLiked?: boolean}, State>{
     state: Readonly<State> = {
-        apiReturn: {results: undefined, loading: true, totalPages: 0}
+        apiReturn: {results: undefined, loading: true, totalPages: 0},
+        fadeDone: false
+    }
+
+    componentDidMount(){
+        // If the query is empty and this isn't the liked gallery,
+        // reroute to the error page
+        let query = decodeURI(window.location.search);
+        if ((query === "" || query === undefined || query === null) && window.location.pathname !== '/liked'){
+            window.location.pathname = '/400';
+        }
+        else{
+            if (this.props.useLiked === true){
+                let results = this.likedToResults();
+                this.setState({ apiReturn: {results: results, loading: false, totalPages: this.getTotalPages(results.collection.metadata.total_hits)} });
+            }
+            else{
+                this.getApiResults(query.substring(1));
+            }
+        }
     }
 
     getTotalPages(hits: number): number{
@@ -71,28 +91,18 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         else{
             if (searchSplit[1].substring(0, 5) === 'page='){
                 let numString = searchSplit[1].substring(5);
-                return numString.match(/\d+/) ? parseInt(numString) : 0
+
+                if (numString.match(/\d+/)){
+                    return parseInt(numString);
+                }
+                else{
+                    // Page number is blank, navigate to bad request page
+                    window.location.pathname = '/400';
+                }
+                return 0;
             }
             else{
                 return 1;
-            }
-        }
-    }
-
-    componentDidMount(){
-        // If the query is empty and this isn't the liked gallery,
-        // reroute to the error page
-        let query = decodeURI(window.location.search);
-        if ((query === "" || query === undefined || query === null) && window.location.pathname !== '/liked'){
-            window.location.pathname = '/400';
-        }
-        else{
-            if (this.props.useLiked === true){
-                let results = this.likedToResults();
-                this.setState({ apiReturn: {results: results, loading: false, totalPages: this.getTotalPages(results.collection.metadata.total_hits)} });
-            }
-            else{
-                this.getApiResults(query.substring(1));
             }
         }
     }
@@ -113,25 +123,28 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
             }
         }
         return(
-            <main className="Gallery-container">
+            <main className='main'>
                 <Header/>
-                { this.state.apiReturn.loading === true &&
-                    <FadeIn>
-                        <img src={logo} className="App-logo" alt="loading" />
-                     </FadeIn>
-                }
-                { (this.state.apiReturn.loading === false && totalPages !== 0) &&
-                    <FadeIn>
-                        <div className="Card-container">
+                <body className="Gallery-container">
+                    { this.state.apiReturn.loading &&
+                        <FadeIn>
+                            <img src={logo} className="App-logo" alt="loading" />
+                        </FadeIn>
+                    }
+                    { (!this.state.apiReturn.loading && totalPages !== 0) &&
+                        <FadeIn className={'Card-container'} delay={20}>
                             {imageCards}
-                        </div>
-                    </FadeIn>
+                        </FadeIn>
+                    }
+                    { (!this.state.apiReturn.loading && totalPages === 0) &&
+                        <p>No results :(</p>
+                    }
+                </body>
+                { this.state.apiReturn.loading &&
+                        <PageNavigation currentPage={1} totalPages={1}/>
                 }
-                { (this.state.apiReturn.loading === false && totalPages === 0) &&
-                    <p>No results :(</p>
-                }
-                { (this.state.apiReturn.loading === false) &&
-                    <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
+                { !this.state.apiReturn.loading &&
+                        <PageNavigation currentPage={this.getCurrentPage()} totalPages={totalPages}/>
                 }
             </main>
         );

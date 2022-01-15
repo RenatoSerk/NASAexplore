@@ -8,8 +8,6 @@ export default class CardModal extends Component<{image: ImageItem, show: boolea
         let likedImages = localStorage.getItem('liked');
         if (likedImages !== null){
             let likedImagesArray = JSON.parse(likedImages);
-            console.log(likedImages);
-            console.log(likedImagesArray);
             let imageLiked = false;
             likedImagesArray.forEach( (i: ImageItem) => {
                 if (i.links[0].href === image.links[0].href){ imageLiked =  true; }
@@ -29,7 +27,6 @@ export default class CardModal extends Component<{image: ImageItem, show: boolea
             localStorage.setItem('liked', JSON.stringify(temp));
         }
         else{
-            console.log('Stringifying this first' + JSON.stringify([this.props.image]));
             localStorage.setItem('liked', JSON.stringify([this.props.image]));
         }
         // Force rerender

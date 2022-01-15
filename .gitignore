@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.idea/encodings.xml
+.idea/modules.xml
+.idea/NASAexplore.iml
+.idea/vcs.xml
