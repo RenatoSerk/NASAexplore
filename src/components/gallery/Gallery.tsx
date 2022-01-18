@@ -125,7 +125,7 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
         return(
             <main className='main'>
                 <Header/>
-                <body className="Gallery-container">
+                <div className="Gallery-container">
                     { this.state.apiReturn.loading &&
                         <FadeIn>
                             <img src={logo} className="App-logo" alt="loading" />
@@ -139,7 +139,7 @@ export default class Gallery extends Component<{useLiked?: boolean}, State>{
                     { (!this.state.apiReturn.loading && totalPages === 0) &&
                         <p>No results :(</p>
                     }
-                </body>
+                </div>
                 { this.state.apiReturn.loading &&
                         <PageNavigation currentPage={1} totalPages={1}/>
                 }
