@@ -21,10 +21,7 @@
 }
 
 .card-image {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 1vw;
-    padding-right: 1vw;
+    padding: 20px 1vw;
     flex: 4;
     width: 33vw;
     object-position: center;
@@ -35,45 +32,62 @@
 }
 
 .image-info {
-    display: flex;
     flex: 3;
     flex-direction: column;
     text-align: center;
     color: black;
     margin: 20px;
-    align-self: center;
+    overflow-y: auto;
 }
 
 .image-info h1 {
     font-size: 12px;
     margin: 0 0 10px;
     color: #535050;
+    padding-right: 10px;
 }
 
 .image-info h2 {
+    width: 95%;
     text-transform: uppercase;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     font-size: 28px;
+    padding-right: 10px;
 }
 
 .image-info h4 {
     margin: 1px 0 1px;
     font-size: 16px;
     line-height: 0.5;
+    padding-right: 10px;
 }
 
-.big {
-    font-size: calc(1vw - 2px);
-}
-
-.small {
-    font-size: 12px;
+.image-desc {
+    font-size: 18px;
+    padding-right: 10px;
 }
 
 .image-info .button-container {
     white-space: nowrap;
+    padding-right: 10px;
+}
+
+/* Card scrollbar styling */
+.image-info::-webkit-scrollbar {
+    width: 10px;
+}
+.image-info::-webkit-scrollbar-thumb {
+    background: #7e7e74;
+    border-radius: 10px;
+}
+.image-info::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+.image-info::-webkit-scrollbar-thumb:hover {
+    background: #483d3d;
 }
 
 .button-container button {
@@ -122,11 +136,7 @@
         line-height: 0;
     }
 
-    .big {
-        font-size: calc(2vw - 1px);
-    }
-    
-    .small {
-        font-size: calc(2vw - 3px);
+    .image-desc {
+        font-size: 14px;
     }
 }

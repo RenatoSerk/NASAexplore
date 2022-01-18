@@ -59,17 +59,11 @@ export default class CardModal extends Component<{image: ImageItem, show: boolea
         // Strip tags from description and limit length to 2080
         let title = imageDetails.title.replace(/\[\w+\]/, '');
         let description = imageDetails.description.replace(/(<([^>]+)>)/gi, "").slice(0, 2080);
-        let descriptionElement = <p className='big'>{description}</p>;
+        let descriptionElement = <p className='image-desc'>{description}</p>;
 
         let likeButton = <button onClick={this.handleOnPressLike.bind(this)}>Like!</button>;
         if (this.imageIsLiked(this.props.image)){
             likeButton = <button onClick={this.handleOnPressUnlike.bind(this)}>Unlike!</button>;
-        }
-
-        // If description length is above 1600, use smaller text
-        if (description.length > 1600){
-            descriptionElement = 
-                <p className='small'>{description}</p>
         }
 
         return(
